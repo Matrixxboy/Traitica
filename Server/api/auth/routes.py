@@ -62,7 +62,7 @@ def register(user: UserCreate , db = Depends(get_mongo_db)):
             status_code=HTTP_STATUS.CREATED,
             code=HTTP_CODE["CREATED"],
             message="User created successfully",
-            data=UserResponse(**created_user),
+            data=UserResponse(**created_user).dict(by_alias=True),
             )
     except Exception as e:
         return make_response(

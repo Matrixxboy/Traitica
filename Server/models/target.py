@@ -1,62 +1,65 @@
-from pydantic import BaseModel
-from typing import List
-from models.indian_astrology import IndianAstrology
+from pydantic import BaseModel, Field, BeforeValidator
+from typing import List, Optional, Annotated
+from models.Indian_astrology import IndianAstrology
+
+PyObjectId = Annotated[str, BeforeValidator(str)]
+
 class targetName(BaseModel):
     fisrtName: str = None
     middleName: str = None
     lastName: str = None
 
-class targetBasicModel(BaseModel):
+class Target(BaseModel):
     #target created by
-    created_by : PyObjectId = None
+    created_by : Optional[PyObjectId] = Field(default=None, alias="created_by")
     #target updated by
-    updated_by : PyObjectId = None
+    updated_by : Optional[PyObjectId] = Field(default=None, alias="updated_by")
     # Person Basic Details
-    target_id: PyObjectId = None
-    name : List[targetName] = []
-    dob : str = None
-    birthTime:str=None
-    birthPlace:str=None
-    birthLatitude:str=None
-    birthLongitude:str=None
-    birthTimezone: str = None
-    age : str = None
-    gender : str = None
+    id: Optional[PyObjectId] = Field(default=None, alias="_id")
+    name : Optional[targetName] = None
+    dob : Optional[str] = None
+    birthTime:Optional[str]=None
+    birthPlace:Optional[str]=None
+    birthLatitude:Optional[str]=None
+    birthLongitude:Optional[str]=None
+    birthTimezone: Optional[str] = None
+    age : Optional[str] = None
+    gender : Optional[str] = None
     email:str=None
 
     # Person Address Details :
-    address : str = None
-    city : str = None
-    state : str = None
-    country : str = None
-    pincode : str = None
+    address :  Optional[str] = None
+    city : Optional[str] = None
+    state : Optional[str] = None
+    country : Optional[str] = None
+    pincode : Optional[str] = None
 
     # Person Contact Details :
-    phone : str = None
-    email : str = None
+    phone : Optional[str] = None
+    email : Optional[str] = None
 
     # Person family Details :
-    fatherName : str = None
-    fatherOccupation : str = None
-    motherName : str = None
-    motherOccupation : str = None
+    fatherName : Optional[str] = None
+    fatherOccupation : Optional[str] = None
+    motherName : Optional[str] = None
+    motherOccupation : Optional[str] = None
 
     # Person Financial Details :
-    jobRole: str = None
-    jobType: str = None
-    income : str = None
-    assets : str = None
-    liabilities : str = None
+    jobRole: Optional[str] = None
+    jobType: Optional[str] = None
+    income : Optional[str] = None
+    assets : Optional[str] = None
+    liabilities : Optional[str] = None
 
     # Person birth Details :
-    birthDate : str = None
-    birthTime : str = None
-    birthPlace : str = None
+    birthDate : Optional[str] = None
+    birthTime : Optional[str] = None
+    birthPlace : Optional[str] = None
 
     # Person health Details :
-    height : str = None
-    weight : str = None
-    bloodGroup : str = None
+    height : Optional[str] = None
+    weight : Optional[str] = None
+    bloodGroup : Optional[str] = None
 
     #Indian Astrology Details :
     indianAstrology : List[IndianAstrology] = []
