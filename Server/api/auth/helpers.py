@@ -94,16 +94,16 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db = Depends(get
         raise credentials_exception
     return User(**user)
 
-async def get_current_target(token: str = Depends(oauth2_scheme), db = Depends(get_mongo_db)) -> Target:
+async def get_current_target(user:User=Depends(get_current_user), db = Depends(get_mongo_db)) -> Target:
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
-    email = decode_access_token(token)
-    if email is None:
+    target_created_by = user._id
+    if target_created_by is None:
         raise credentials_exception
-    target = db.targets.find_one({"email": email})
+    target = db.targets.find_one({"created_by": target_created_by})
     if target is None:
         raise credentials_exception
     return Target(**target)

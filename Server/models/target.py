@@ -22,6 +22,7 @@ class targetBasicModel(BaseModel):
     birthTimezone: str = None
     age : str = None
     gender : str = None
+    email:str=None
 
     # Person Address Details :
     address : str = None
