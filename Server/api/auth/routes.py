@@ -2,12 +2,13 @@ from utils.http_constants import HTTP_STATUS , HTTP_CODE
 from utils.response_helper import make_response
 import os
 import re
-from fastapi import APIRouter, HTTPException, status, Depends
+from fastapi import APIRouter, Depends
 from models.user import UserCreate, UserLogin, UserResponse , UserResetPassword
 from database.connection import get_mongo_db
-from datetime import timedelta
+from datetime import timedelta,datetime
 from dotenv import load_dotenv
 load_dotenv()
+
 
 from api.auth.helpers import create_access_token, get_password_hash, verify_password
 
@@ -16,9 +17,8 @@ router = APIRouter()
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 @router.post("/register", response_model=UserResponse)
-def register(user: UserCreate):
+def register(user: UserCreate , db = Depends(get_mongo_db)):
     try:
-        db = get_mongo_db()
         if not re.match("^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", user.email):
             return make_response(
                 status_code=HTTP_STATUS.BAD_REQUEST,
@@ -57,6 +57,7 @@ def register(user: UserCreate):
 
         new_user = db.users.insert_one(user_dict)
         created_user = db.users.find_one({"_id": new_user.inserted_id})
+        created_user["created_at"] = datetime.now()
         return make_response(
             status_code=HTTP_STATUS.CREATED,
             code=HTTP_CODE["CREATED"],
@@ -72,14 +73,20 @@ def register(user: UserCreate):
             )
 
 @router.post("/login")
-def login(user: UserLogin):
-    db = get_mongo_db()
+def login(user: UserLogin , db = Depends(get_mongo_db)):
     db_user = db.users.find_one({"email": user.email})
-    if not db_user or not verify_password(user.password, db_user["hashed_password"]):
+    if not db_user:
+        return make_response(
+            status_code=HTTP_STATUS.NOT_FOUND,
+            code=HTTP_CODE["NOT_FOUND"],
+            message="User not found",
+            data=None,
+        )
+    if not verify_password(user.password, db_user["hashed_password"]):
         return make_response(
             status_code=HTTP_STATUS.UNAUTHORIZED,
             code=HTTP_CODE["UNAUTHORIZED"],
-            message="Incorrect email or password",
+            message="Incorrect password",
             data=None,
         )
 
@@ -88,6 +95,11 @@ def login(user: UserLogin):
         data={"sub": db_user["email"]}, expires_delta=access_token_expires
     )
     data = {"access_token": access_token, "token_type": "bearer"}
+    user_data = {
+        "last_login": datetime.now(),
+        "login_history": [datetime.now()]
+    }
+    db.users.update_one({"_id": db_user["_id"]}, {"$set": user_data})
     return make_response(
         status_code=HTTP_STATUS.OK,
         code=HTTP_CODE["OK"],
@@ -120,6 +132,11 @@ def reset_password(user: UserResetPassword):
                 data=None,
                 )
         updated_user = db.users.update_one({"_id": db_user["_id"]}, {"$set": user_dict})
+        updated_user["updated_at"] = datetime.now()
+        updated_user["password_updated_at"] = {
+            "time":datetime.now(),
+            "updated_by":db_user["email"]
+            }
         if updated_user.modified_count == 0:
             return make_response(
                 status_code=HTTP_STATUS.BAD_REQUEST,
