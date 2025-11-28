@@ -1,0 +1,12 @@
+FastAPI
+pydantic
+uvicorn
+python-dotenv
+passlib
+pyjwt
+motor
+pymongo
+pydantic
+python-multipart
+pydantic-settings
+toon
