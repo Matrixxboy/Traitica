@@ -1550,7 +1550,7 @@ def final_astro_report(DOB:str,TOB:str,LOCATION:str)->dict:
     moon_sign_rashi = get_rashi_from_nakshatra_pada(nakshatra_index_1based, nakshatra_pada)
 
     # ----- Ascendant and Houses -----
-    cusps, ascmc = swe.houses(jd, lat, lon, b'A') 
+    cusps, ascmc = swe.houses(jd, lat, lon, b'A')
 
     output = {
         "DOB":DOB,

@@ -157,3 +157,12 @@ def reset_password(user: UserResetPassword):
             message=str(e),
             data=None,
         )
+
+@router.get("/me", response_model=UserResponse)
+def read_users_me(current_user: UserResponse = Depends(get_current_user)):
+    return make_response(
+        status_code=HTTP_STATUS.OK,
+        code=HTTP_CODE["OK"],
+        message="User details fetched successfully",
+        data=current_user.dict(by_alias=True),
+    )

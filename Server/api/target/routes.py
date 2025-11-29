@@ -7,6 +7,7 @@ from utils.response_helper import make_response
 from utils.http_constants import HTTP_STATUS, HTTP_CODE
 from datetime import datetime
 from bson import ObjectId
+from utils.common import flatten_dict
 
 router = APIRouter()
 
@@ -87,6 +88,9 @@ async def update_target(target_update: Target, user: User = Depends(get_current_
 
         update_data = target_update.dict(exclude_unset=True, exclude={"id", "created_by"})
         update_data["updated_by"] = user.id
+        
+        # Flatten the dictionary to support nested updates (dot notation)
+        update_data = flatten_dict(update_data)
 
         if not update_data:
             return make_response(

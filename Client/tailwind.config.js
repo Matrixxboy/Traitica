@@ -5,7 +5,29 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "obsessive-black": "#0a0a0a",
+        "obsessive-text": "#e0e0e0",
+        "obsessive-accent": "#ff0000",
+        "obsessive-cyan": "#00ffff",
+        "obsessive-dim": "rgba(255, 255, 255, 0.1)",
+      },
+      fontFamily: {
+        mono: ["Courier Prime", "monospace"],
+      },
+      animation: {
+        "pulse-fast": "pulse 1s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        glitch: "glitch 1s linear infinite",
+      },
+      keyframes: {
+        glitch: {
+          "2%, 64%": { transform: "translate(2px,0) skew(0deg)" },
+          "4%, 60%": { transform: "translate(-2px,0) skew(0deg)" },
+          "62%": { transform: "translate(0,0) skew(5deg)" },
+        },
+      },
+    },
   },
   plugins: [],
 }

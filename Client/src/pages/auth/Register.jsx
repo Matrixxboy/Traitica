@@ -31,80 +31,25 @@ const Register = () => {
   };
 
   return (
-    <div
-      className="login-container"
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "80vh",
-        padding: "2rem",
-      }}
-    >
-      <div
-        style={{
-          background: "rgba(0, 0, 0, 0.6)",
-          backdropFilter: "blur(10px)",
-          padding: "3rem",
-          borderRadius: "20px",
-          border: "1px solid rgba(255, 255, 255, 0.1)",
-          width: "100%",
-          maxWidth: "400px",
-          boxShadow: "0 0 20px rgba(255, 0, 255, 0.1)",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
+    <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
+      <div className="relative w-full max-w-md p-8 bg-obsessive-black/60 backdrop-blur-md border border-obsessive-dim rounded-lg shadow-[0_0_30px_rgba(255,0,255,0.1)]">
         {/* Decorative corner */}
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "30px",
-            height: "30px",
-            borderTop: "2px solid #ff00ff",
-            borderLeft: "2px solid #ff00ff",
-          }}
-        ></div>
+        <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-purple-500"></div>
+        <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-purple-500"></div>
 
-        <h2
-          style={{
-            textAlign: "center",
-            marginBottom: "2rem",
-            color: "#fff",
-            letterSpacing: "2px",
-          }}
-        >
+        <h2 className="text-2xl font-bold text-center mb-8 tracking-[0.2em] text-white">
           NEW_ENTITY_REGISTRATION
         </h2>
+
         {error && (
-          <p
-            style={{
-              color: "#ff4444",
-              textAlign: "center",
-              marginBottom: "1rem",
-              background: "rgba(255,0,0,0.1)",
-              padding: "0.5rem",
-            }}
-          >
-            {error}
-          </p>
+          <div className="mb-6 p-3 bg-red-500/10 border border-red-500/50 text-red-500 text-center text-sm">
+            ERROR: {error}
+          </div>
         )}
-        <form
-          onSubmit={handleSubmit}
-          style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}
-        >
+
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6">
           <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                color: "#aaa",
-                fontSize: "0.8rem",
-              }}
-            >
+            <label className="block mb-2 text-xs text-obsessive-text/60 tracking-wider">
               CODENAME (USERNAME)
             </label>
             <input
@@ -112,27 +57,11 @@ const Register = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              style={{
-                width: "100%",
-                padding: "0.8rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "5px",
-                color: "white",
-                outline: "none",
-                fontFamily: "monospace",
-              }}
+              className="w-full p-3 bg-obsessive-dim border border-obsessive-dim rounded text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono"
             />
           </div>
           <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                color: "#aaa",
-                fontSize: "0.8rem",
-              }}
-            >
+            <label className="block mb-2 text-xs text-obsessive-text/60 tracking-wider">
               COMM_LINK (EMAIL)
             </label>
             <input
@@ -140,27 +69,11 @@ const Register = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              style={{
-                width: "100%",
-                padding: "0.8rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "5px",
-                color: "white",
-                outline: "none",
-                fontFamily: "monospace",
-              }}
+              className="w-full p-3 bg-obsessive-dim border border-obsessive-dim rounded text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono"
             />
           </div>
           <div>
-            <label
-              style={{
-                display: "block",
-                marginBottom: "0.5rem",
-                color: "#aaa",
-                fontSize: "0.8rem",
-              }}
-            >
+            <label className="block mb-2 text-xs text-obsessive-text/60 tracking-wider">
               SECURITY_KEY (PASSWORD)
             </label>
             <input
@@ -168,48 +81,20 @@ const Register = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              style={{
-                width: "100%",
-                padding: "0.8rem",
-                background: "rgba(255, 255, 255, 0.05)",
-                border: "1px solid rgba(255, 255, 255, 0.1)",
-                borderRadius: "5px",
-                color: "white",
-                outline: "none",
-                fontFamily: "monospace",
-              }}
+              className="w-full p-3 bg-obsessive-dim border border-obsessive-dim rounded text-white focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 transition-all font-mono"
             />
           </div>
           <button
             type="submit"
-            style={{
-              padding: "1rem",
-              background: "linear-gradient(45deg, #ff00ff, #aa00ff)",
-              border: "none",
-              borderRadius: "5px",
-              color: "white",
-              fontWeight: "bold",
-              cursor: "pointer",
-              marginTop: "1rem",
-              letterSpacing: "1px",
-              transition: "transform 0.2s",
-            }}
-            onMouseOver={(e) => (e.target.style.transform = "scale(1.02)")}
-            onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+            className="mt-4 w-full py-4 bg-purple-500/10 border border-purple-500 text-purple-500 font-bold tracking-widest hover:bg-purple-500 hover:text-black transition-all duration-300 uppercase"
           >
             REGISTER_ENTITY
           </button>
         </form>
-        <p
-          style={{
-            textAlign: "center",
-            marginTop: "1.5rem",
-            fontSize: "0.9rem",
-            color: "#aaa",
-          }}
-        >
+
+        <p className="text-center mt-6 text-xs text-obsessive-text/60">
           Already registered?{" "}
-          <Link to="/login" style={{ color: "#00ffff" }}>
+          <Link to="/login" className="text-obsessive-cyan hover:underline">
             Login here
           </Link>
         </p>
