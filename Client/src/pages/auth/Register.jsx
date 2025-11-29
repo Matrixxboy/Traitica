@@ -31,8 +31,23 @@ const Register = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[80vh] p-4">
-      <div className="relative w-full max-w-md p-8 bg-obsessive-black/60 backdrop-blur-md border border-obsessive-dim rounded-lg shadow-[0_0_30px_rgba(255,0,255,0.1)]">
+    <div className="min-h-screen bg-obsessive-black text-obsessive-text flex items-center justify-center p-4 font-mono relative overflow-hidden">
+      {/* Background Image */}
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundImage: `url('/assets/matrix_bg_auth.png')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          opacity: 0.3,
+          zIndex: 0,
+        }}
+      />
+      <div className="w-full max-w-md relative z-10 p-8 bg-obsessive-black/60 backdrop-blur-md border border-obsessive-dim rounded-lg shadow-[0_0_30px_rgba(255,0,255,0.1)]">
         {/* Decorative corner */}
         <div className="absolute top-0 left-0 w-8 h-8 border-t-2 border-l-2 border-purple-500"></div>
         <div className="absolute bottom-0 right-0 w-8 h-8 border-b-2 border-r-2 border-purple-500"></div>

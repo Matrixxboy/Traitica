@@ -1,7 +1,7 @@
+from models.target import UpdateTarget, Target
 from fastapi import APIRouter, Depends, HTTPException, status
 from api.auth.helpers import get_current_user
 from database.connection import get_mongo_db
-from models.target import Target
 from models.user import User
 from utils.response_helper import make_response
 from utils.http_constants import HTTP_STATUS, HTTP_CODE
@@ -14,17 +14,7 @@ router = APIRouter()
 @router.post("/", response_description="Create a new target")
 async def create_target(target: Target, user: User = Depends(get_current_user), db = Depends(get_mongo_db)):
     try:
-        # Check if target already exists for this user
-        existing_target = db.targets.find_one({"created_by": user.id})
-        if existing_target:
-            return make_response(
-                status_code=HTTP_STATUS.BAD_REQUEST,
-                code=HTTP_CODE["BAD_REQUEST"],
-                message="Target already exists for this user",
-                data=None
-            )
-
-        target_dict = target.dict(by_alias=True, exclude_none=True)
+        target_dict = target.model_dump(by_alias=True, exclude_none=True)
         target_dict["created_by"] = user.id
         target_dict["updated_by"] = user.id
 
@@ -39,7 +29,7 @@ async def create_target(target: Target, user: User = Depends(get_current_user), 
             status_code=HTTP_STATUS.CREATED,
             code=HTTP_CODE["CREATED"],
             message="Target created successfully",
-            data=Target(**created_target).dict(by_alias=True)
+            data=Target(**created_target).model_dump(by_alias=True)
         )
     except Exception as e:
         return make_response(
@@ -49,22 +39,15 @@ async def create_target(target: Target, user: User = Depends(get_current_user), 
             data=None
         )
 
-@router.get("/", response_description="Get current user target")
-async def get_target(user: User = Depends(get_current_user), db = Depends(get_mongo_db)):
+@router.get("/", response_description="Get current user targets")
+async def get_targets(user: User = Depends(get_current_user), db = Depends(get_mongo_db)):
     try:
-        target = db.targets.find_one({"created_by": user.id})
-        if target:
-            return make_response(
-                status_code=HTTP_STATUS.OK,
-                code=HTTP_CODE["OK"],
-                message="Target fetched successfully",
-                data=Target(**target).dict(by_alias=True)
-            )
+        targets = list(db.targets.find({"created_by": user.id}))
         return make_response(
-            status_code=HTTP_STATUS.NOT_FOUND,
-            code=HTTP_CODE["NOT_FOUND"],
-            message="Target not found",
-            data=None
+            status_code=HTTP_STATUS.OK,
+            code=HTTP_CODE["OK"],
+            message="Targets fetched successfully",
+            data=[Target(**target).model_dump(by_alias=True) for target in targets]
         )
     except Exception as e:
         return make_response(
@@ -74,10 +57,19 @@ async def get_target(user: User = Depends(get_current_user), db = Depends(get_mo
             data=None
         )
 
-@router.put("/", response_description="Update current user target")
-async def update_target(target_update: Target, user: User = Depends(get_current_user), db = Depends(get_mongo_db)):
+@router.put("/{target_id}", response_description="Update a target")
+async def update_target(
+    target_id: str,
+    target_update: UpdateTarget,   # <-- Partial model
+    user: User = Depends(get_current_user),
+    db = Depends(get_mongo_db)
+):
     try:
-        existing_target = db.targets.find_one({"created_by": user.id})
+        existing_target = db.targets.find_one({
+            "_id": ObjectId(target_id),
+            "created_by": user.id
+        })
+
         if not existing_target:
             return make_response(
                 status_code=HTTP_STATUS.NOT_FOUND,
@@ -86,10 +78,16 @@ async def update_target(target_update: Target, user: User = Depends(get_current_
                 data=None
             )
 
-        update_data = target_update.dict(exclude_unset=True, exclude={"id", "created_by"})
+        # Only include fields user actually sent
+        update_data = target_update.model_dump(exclude_unset=True)
+
+        # Prevent internal fields from being modified
+        update_data.pop("id", None)
+        update_data.pop("created_by", None)
+
         update_data["updated_by"] = user.id
-        
-        # Flatten the dictionary to support nested updates (dot notation)
+
+        # Flatten nested objects if needed
         update_data = flatten_dict(update_data)
 
         if not update_data:
@@ -101,24 +99,17 @@ async def update_target(target_update: Target, user: User = Depends(get_current_
             )
 
         result = db.targets.update_one(
-            {"_id": existing_target["_id"]},
+            {"_id": ObjectId(target_id)},
             {"$set": update_data}
         )
 
-        if result.modified_count == 0:
-            return make_response(
-                status_code=HTTP_STATUS.OK,
-                code=HTTP_CODE["OK"],
-                message="No changes made",
-                data=None
-            )
+        updated_target = db.targets.find_one({"_id": ObjectId(target_id)})
 
-        updated_target = db.targets.find_one({"_id": existing_target["_id"]})
         return make_response(
             status_code=HTTP_STATUS.OK,
             code=HTTP_CODE["OK"],
             message="Target updated successfully",
-            data=Target(**updated_target).dict(by_alias=True)
+            data=Target(**updated_target).model_dump(by_alias=True)
         )
 
     except Exception as e:

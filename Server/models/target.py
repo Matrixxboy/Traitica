@@ -5,9 +5,9 @@ from models.Indian_astrology import IndianAstrology
 PyObjectId = Annotated[str, BeforeValidator(str)]
 
 class targetName(BaseModel):
-    fisrtName: str = None
-    middleName: str = None
-    lastName: str = None
+    firstName: Optional[str] = None
+    middleName: Optional[str] = None
+    lastName: Optional[str] = None
 
 class Target(BaseModel):
     #target created by
@@ -64,4 +64,53 @@ class Target(BaseModel):
     #Indian Astrology Details :
     indianAstrology : List[IndianAstrology] = []
 
+class UpdateTarget(BaseModel):
+    #target updated by
+    updated_by : Optional[str] = Field(default=None, alias="updated_by")
+    # Person Basic Details
+    name : Optional[targetName] = None
+    dob : Optional[str] = None
+    birthTime:Optional[str]=None
+    birthPlace:Optional[str]=None
+    birthLatitude:Optional[str]=None
+    birthLongitude:Optional[str]=None
+    birthTimezone: Optional[str] = None
+    age : Optional[str] = None
+    gender : Optional[str] = None
 
+    # Person Address Details :
+    address :  Optional[str] = None
+    city : Optional[str] = None
+    state : Optional[str] = None
+    country : Optional[str] = None
+    pincode : Optional[str] = None
+
+    # Person Contact Details :
+    phone : Optional[str] = None
+    email : Optional[str] = None
+
+    # Person family Details :
+    fatherName : Optional[str] = None
+    fatherOccupation : Optional[str] = None
+    motherName : Optional[str] = None
+    motherOccupation : Optional[str] = None
+
+    # Person Financial Details :
+    jobRole: Optional[str] = None
+    jobType: Optional[str] = None
+    income : Optional[str] = None
+    assets : Optional[str] = None
+    liabilities : Optional[str] = None
+
+    # Person birth Details :
+    birthDate : Optional[str] = None
+    birthTime : Optional[str] = None
+    birthPlace : Optional[str] = None
+
+    # Person health Details :
+    height : Optional[str] = None
+    weight : Optional[str] = None
+    bloodGroup : Optional[str] = None
+
+    #Indian Astrology Details :
+    indianAstrology : List[IndianAstrology] = []

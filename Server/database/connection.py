@@ -78,7 +78,7 @@ def connect_to_mongo():
         print("   3. Ensure your environment variables (USER, PASSWORD, HOST) are correct.")
         mongo_db = None
     except Exception as e:
-        print(f"❌ An unexpected error occurred: {e}")
+        print(f"An unexpected error occurred: {e}")
         mongo_db = None
 
 # --- Application Startup Connection ---

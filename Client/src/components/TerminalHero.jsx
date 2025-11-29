@@ -35,10 +35,13 @@ const TerminalHero = () => {
           type: "info",
           content: `AVAILABLE COMMANDS:
   - help        : Show this message
+  - home        : Go to home
   - about       : Mission statement
   - login       : Access secure terminal
   - register    : Create new entity
   - clear       : Clear terminal
+  - profile     : Access profile
+  - logout      : Logout from terminal
   - matrixxboy  : [REDACTED]`,
         });
         break;
@@ -50,6 +53,12 @@ const TerminalHero = () => {
         break;
       case "register":
         navigate("/register");
+        break;
+      case "profile":
+        navigate("/profile");
+        break;
+      case "home":
+        navigate("/");
         break;
       case "clear":
         setHistory([]);
@@ -78,7 +87,7 @@ const TerminalHero = () => {
   };
 
   return (
-    <div className="w-full max-w-4xl mx-auto my-8 border border-obsessive-dim bg-obsessive-black/80 font-mono text-sm md:text-base shadow-[0_0_20px_rgba(0,255,255,0.05)] rounded overflow-hidden">
+    <div className="w-full max-w-5xl mx-auto my-8 border border-obsessive-dim bg-obsessive-black/80 font-mono text-sm md:text-base shadow-[0_0_20px_rgba(0,255,255,0.05)] rounded overflow-hidden">
       {/* Terminal Header */}
       <div className="bg-obsessive-dim/20 border-b border-obsessive-dim p-2 flex justify-between items-center">
         <div className="flex gap-2">

@@ -5,6 +5,7 @@ import re
 from fastapi import APIRouter, Depends
 from models.user import UserCreate, UserLogin, UserResponse , UserResetPassword
 from database.connection import get_mongo_db
+from api.auth.helpers import get_current_user
 from datetime import timedelta,datetime
 from dotenv import load_dotenv
 load_dotenv()

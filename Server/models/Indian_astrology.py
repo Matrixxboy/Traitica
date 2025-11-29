@@ -1,6 +1,6 @@
 from bs4.builder._html5lib import Element
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 class PadaDetails(BaseModel):
     padaName: str = ""
@@ -107,21 +107,21 @@ class IndianAstrology(BaseModel):
 
     #Planet Details
     accidentalPlanetDetails:List[PlanetDetails] = []
-    sunPlanetDetails:PlanetDetails = None
-    moonPlanetDetails:PlanetDetails = None
-    marsPlanetDetails:PlanetDetails = None
-    mercuryPlanetDetails:PlanetDetails = None
-    jupiterPlanetDetails:PlanetDetails = None
-    VenusPlanetDetails:PlanetDetails = None
-    SaturnPlanetDetails:PlanetDetails = None
-    ketuPlanetDetails:PlanetDetails = None
-    RahuPlanetDetails:PlanetDetails = None
-    uranusPlanetDetails:PlanetDetails = None
-    NeptunePlanetDetails:PlanetDetails = None
-    PlutoPlanetDetails:PlanetDetails = None
+    sunPlanetDetails:Optional[PlanetDetails] = None
+    moonPlanetDetails:Optional[PlanetDetails] = None
+    marsPlanetDetails:Optional[PlanetDetails] = None
+    mercuryPlanetDetails:Optional[PlanetDetails] = None
+    jupiterPlanetDetails:Optional[PlanetDetails] = None
+    VenusPlanetDetails:Optional[PlanetDetails] = None
+    SaturnPlanetDetails:Optional[PlanetDetails] = None
+    ketuPlanetDetails:Optional[PlanetDetails] = None
+    RahuPlanetDetails:Optional[PlanetDetails] = None
+    uranusPlanetDetails:Optional[PlanetDetails] = None
+    NeptunePlanetDetails:Optional[PlanetDetails] = None
+    PlutoPlanetDetails:Optional[PlanetDetails] = None
 
     #Vimshottari Dasha
-    mahadasgaDetails:VimshottariDasha = None
-    antardashaDetails:VimshottariDasha = None
-    pratyantardashaDetails:VimshottariDasha = None
-    sookshmaDashaDetails:VimshottariDasha = None
+    mahadasgaDetails:Optional[VimshottariDasha] = None
+    antardashaDetails:Optional[VimshottariDasha] = None
+    pratyantardashaDetails:Optional[VimshottariDasha] = None
+    sookshmaDashaDetails:Optional[VimshottariDasha] = None

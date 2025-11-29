@@ -43,20 +43,16 @@ const topics = [
 
 const Home = () => {
   return (
-    <div className="min-h-screen w-full">
-      {/* Interactive Terminal Hero */}
+    <div className="w-full">
       <div className="mb-12">
         <TerminalHero />
       </div>
-
-      {/* Grid of Topics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {topics.map((topic) => (
           <div
             key={topic.id}
             className="group relative border border-obsessive-dim bg-obsessive-black/40 p-6 hover:border-obsessive-cyan transition-all duration-300 hover:bg-obsessive-dim/5"
           >
-            {/* Corner Markers */}
             <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-obsessive-dim group-hover:border-obsessive-cyan transition-colors"></div>
             <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-obsessive-dim group-hover:border-obsessive-cyan transition-colors"></div>
             <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-obsessive-dim group-hover:border-obsessive-cyan transition-colors"></div>
@@ -101,7 +97,7 @@ const Home = () => {
             </Link>
           </div>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

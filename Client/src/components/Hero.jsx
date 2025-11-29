@@ -27,7 +27,7 @@ const Hero = () => {
       style={{
         position: "relative",
         zIndex: 1,
-        height: "100vh",
+        minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -36,6 +36,10 @@ const Hero = () => {
         textAlign: "center",
         pointerEvents: "none",
         overflow: "hidden",
+        backgroundImage: `url('/assets/matrix_bg_home.png')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
       }}
     >
       {/* Noise Overlay */}
@@ -81,6 +85,7 @@ const Hero = () => {
           textShadow: "0 0 10px #00ffff",
           padding: "0 1rem",
           zIndex: 2,
+          lineHeight: 1.1,
         }}
       >
         TRAITICA
@@ -92,7 +97,8 @@ const Hero = () => {
         style={{
           fontSize: "clamp(1rem, 4vw, 1.5rem)",
           marginBottom: "2rem",
-          maxWidth: "600px",
+          maxWidth: "90%",
+          width: "600px",
           padding: "0 1rem",
           fontFamily: "'Courier Prime', monospace",
           letterSpacing: "1px",
