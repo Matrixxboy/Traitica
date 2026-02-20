@@ -1,19 +1,23 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
-import Home from "../pages/Home";
-import Login from "../pages/auth/Login";
-import Register from "../pages/auth/Register";
-import Profile from "../pages/Profile";
-import Unauthorized from "../pages/Unauthorized";
-import ProtectedRoute from "../components/ProtectedRoute";
-import Creator from "../pages/Creator";
-import Privacy from "../pages/Privacy";
-import Terms from "../pages/Terms";
-import About from "../pages/About";
-import Archives from "../pages/Archives";
-import ArchiveDetail from "../pages/ArchiveDetail";
-import Facts from "../pages/Facts";
+import React from "react"
+import { Routes, Route } from "react-router-dom"
+import MainLayout from "../layouts/MainLayout"
+import Home from "../pages/Home"
+import Login from "../pages/auth/Login"
+import Register from "../pages/auth/Register"
+import Profile from "../pages/Profile"
+import Unauthorized from "../pages/Unauthorized"
+import ProtectedRoute from "../components/ProtectedRoute"
+import Creator from "../pages/Creator"
+import Privacy from "../pages/Privacy"
+import Terms from "../pages/Terms"
+import About from "../pages/About"
+import Archives from "../pages/Archives"
+import ArchiveDetail from "../pages/ArchiveDetail"
+import Facts from "../pages/Facts"
+
+import SystemLogs from "../pages/SystemLogs"
+import NetworkStatus from "../pages/NetworkStatus"
+import RedRoom from "../pages/RedRoom"
 
 const AppRoutes = () => {
   return (
@@ -26,6 +30,9 @@ const AppRoutes = () => {
 
         {/* New Pages */}
         <Route path="matrixxboy" element={<Creator />} />
+        <Route path="logs" element={<SystemLogs />} />
+        <Route path="network" element={<NetworkStatus />} />
+        <Route path="red-room" element={<RedRoom />} />
         <Route path="privacy" element={<Privacy />} />
         <Route path="terms" element={<Terms />} />
         <Route path="about" element={<About />} />
@@ -39,7 +46,7 @@ const AppRoutes = () => {
         </Route>
       </Route>
     </Routes>
-  );
-};
+  )
+}
 
-export default AppRoutes;
+export default AppRoutes
